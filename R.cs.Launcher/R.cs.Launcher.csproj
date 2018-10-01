@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D13D5822-E7F1-46D9-A23E-823D8C893D2F}</ProjectGuid>
+    <ProjectGuid>{640AFF28-9EBC-4D21-BE06-FFDDF14E1738}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RcsLauncher</RootNamespace>
-    <AssemblyName>RcsLauncher</AssemblyName>
+    <RootNamespace>R.cs.Launcher</RootNamespace>
+    <AssemblyName>R.cs.Launcher</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,9 +52,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rcs\Rcs.csproj">
-      <Project>{0e9b554e-312a-4223-8693-3a5d9dfec390}</Project>
-      <Name>Rcs</Name>
+    <ProjectReference Include="..\R.cs.Core\R.cs.Core.csproj">
+      <Project>{29b69c9b-1fee-46bb-b200-6f8050dd2e21}</Project>
+      <Name>R.cs.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

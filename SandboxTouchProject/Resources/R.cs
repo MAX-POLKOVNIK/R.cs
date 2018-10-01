@@ -1,4 +1,6 @@
-namespace SandboxTouchProject
+// This file generated with R.cs v.0.1.0.0
+
+namespace SandboxTouchProject.Resources
 {
     public static class R
     {

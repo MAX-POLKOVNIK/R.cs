@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RcsLauncher")]
+[assembly: AssemblyTitle("R.cs.Launcher")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RcsLauncher")]
+[assembly: AssemblyProduct("R.cs.Launcher")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d13d5822-e7f1-46d9-a23e-823d8c893d2f")]
+[assembly: Guid("640aff28-9ebc-4d21-be06-ffddf14e1738")]
 
 // Version information for an assembly consists of the following four values:
 //

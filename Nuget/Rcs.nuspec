@@ -3,7 +3,6 @@
   <metadata minClientVersion="2.5">
     <id>R.cs</id>
     <version>0.1</version>
-    <title>R.cs</title>
     <authors>MAX-POLKOVNIK</authors>
 	<owners>MAX-POLKOVNIK</owners>
     <description>
@@ -11,20 +10,20 @@
     </description>
     <releaseNotes>
     </releaseNotes>
-    <projectUrl>https://github.com/MAX-POLKOVNIK</projectUrl>
-    <iconUrl>https://github.com/MAX-POLKOVNIK</iconUrl>
+    <projectUrl>https://github.com/MAX-POLKOVNIK/R.cs</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/MAX-POLKOVNIK</licenseUrl>
+    <licenseUrl>https://github.com/MAX-POLKOVNIK/R.cs/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright 2018</copyright>
     <tags>R.cs resources</tags>
   </metadata>
   <files>
-	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.targets" target="build\netstandart2.0\Rcs.targets" />
-	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.dll" target="lib\Xamarin.iOS10\Rcs.dll" />		
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\R.cs.targets" target="build" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\R.cs.Core.dll" target="lib\Xamarin.iOS10\Rcs.dll" />		
 			
 		
-	<file src="..\..\Rcs\Rcs\bin\Release\*.dll" />
-	<file src="..\..\Rcs\Rcs\bin\Release\*.config" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\*.dll" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\*.pdb" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\*.config" />
   
   </files>
 </package>

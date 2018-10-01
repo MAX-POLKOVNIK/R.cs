@@ -1,9 +1,9 @@
 ﻿using Microsoft.Build.Framework;
 using Task = Microsoft.Build.Utilities.Task;
 
-namespace Rcs
+namespace R.cs.Core
 {
-    public class RcsBuildTask : Task
+    public class BuildTask : Task
     {
         [Required]
         public string ProjectPath { get; set; }

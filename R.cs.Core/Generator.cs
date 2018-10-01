@@ -6,15 +6,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Build.Evaluation;
 
-namespace Rcs
+namespace R.cs.Core
 {
     public class Generator
     {
-        private static readonly string GeneratedFileDescription = $@"// This file generated with {typeof(Generator).Assembly.FullName}";
+        private static readonly string GeneratedFileDescription = $@"// This file generated with R.cs v.{typeof(Generator).Assembly.GetName().Version}";
 
-        private const string PathToRcs = @"Resources\R.cs";
+        private static readonly string PathToRcs = Path.Combine("Resources", "R.cs");
 
         private readonly char[] _symbolsToRemove = {'-', '.'};
+
+        private static readonly char Separator = IsRunningOnMono() ? '/' : '\\';
 
         private const string RootBundleDirectoryName = "R.cs_root";
 
@@ -25,45 +27,79 @@ namespace Rcs
             public BundleDirectory[] BundleSubDirectories { get; set; }
         }
         
-        public void Do(string path, string rootNamespace)
+        public string Do(string path, string rootNamespace)
         {
-            var project = new Project(path);
+            var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
+                ?? new Project(path);
 
-            var images = project.AllEvaluatedItems
-                .Where(x => x.ItemType == "ImageAsset")
-                .Select(x => x.EvaluatedInclude.Split('\\'))
-                .Where(x => x.Any(y => y.Contains(".imageset")))
-                .GroupBy(x => x.First(y => y.Contains(".imageset")))
-                .Select(x => Path.GetFileNameWithoutExtension(x.Key))
-                .ToDictionary(GetCorrectConstName, x => x);
+            IDictionary<string, string> images;
+            IDictionary<string, string> colors;
+            IDictionary<string, string> storyboards;
+            IDictionary<string, string> xibs;
 
-            var colors = project.AllEvaluatedItems
-                .Where(x => x.ItemType == "ImageAsset")
-                .Select(x => x.EvaluatedInclude.Split('\\'))
-                .Where(x => x.Any(y => y.Contains(".colorset")))
-                .GroupBy(x => x.First(y => y.Contains(".colorset")))
-                .Select(x => Path.GetFileNameWithoutExtension(x.Key))
-                .ToDictionary(GetCorrectConstName, x => x);
+            try
+            {
+                images = project.AllEvaluatedItems
+                    .Where(x => x.ItemType == "ImageAsset")
+                    .Select(x => x.EvaluatedInclude.Split(Separator))
+                    .Where(x => x.Any(y => y.Contains(".imageset")))
+                    .GroupBy(x => x.First(y => y.Contains(".imageset")))
+                    .Select(x => Path.GetFileNameWithoutExtension(x.Key))
+                    .ToDictionary(GetCorrectConstName, x => x);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating assets", ex);
+            }
 
-            var storyboards = project.AllEvaluatedItems
-                .Where(x => x.ItemType == "InterfaceDefinition")
-                .Select(x => x.EvaluatedInclude.Split('\\'))
-                .Select(x => x.Last())
-                .Where(x => Path.GetExtension(x) == ".storyboard")
-                .Select(Path.GetFileNameWithoutExtension)
-                .ToDictionary(GetCorrectConstName, x => x);
+            try
+            {
+                colors = project.AllEvaluatedItems
+                    .Where(x => x.ItemType == "ImageAsset")
+                    .Select(x => x.EvaluatedInclude.Split(Separator))
+                    .Where(x => x.Any(y => y.Contains(".colorset")))
+                    .GroupBy(x => x.First(y => y.Contains(".colorset")))
+                    .Select(x => Path.GetFileNameWithoutExtension(x.Key))
+                    .ToDictionary(GetCorrectConstName, x => x);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating colors", ex);
+            }
 
-            var xibs = project.AllEvaluatedItems
-                .Where(x => x.ItemType == "InterfaceDefinition")
-                .Select(x => x.EvaluatedInclude.Split('\\'))
-                .Select(x => x.Last())
-                .Where(x => Path.GetExtension(x) == ".xib")
-                .Select(Path.GetFileNameWithoutExtension)
-                .ToDictionary(GetCorrectConstName, x => x);
+            try
+            {
+                storyboards = project.AllEvaluatedItems
+                    .Where(x => x.ItemType == "InterfaceDefinition")
+                    .Select(x => x.EvaluatedInclude.Split(Separator))
+                    .Select(x => x.Last())
+                    .Where(x => Path.GetExtension(x) == ".storyboard")
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .ToDictionary(GetCorrectConstName, x => x);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating storyboards", ex);
+            }
+
+            try
+            {
+                xibs = project.AllEvaluatedItems
+                    .Where(x => x.ItemType == "InterfaceDefinition")
+                    .Select(x => x.EvaluatedInclude.Split(Separator))
+                    .Select(x => x.Last())
+                    .Where(x => Path.GetExtension(x) == ".xib")
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .ToDictionary(GetCorrectConstName, x => x);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error generating xibs", ex);
+            }
 
             var rootBundleDirectories = project.AllEvaluatedItems
                 .Where(x => x.ItemType == "BundleResource")
-                .Select(x => new KeyValuePair<string[], string>(x.EvaluatedInclude.Split('\\'), x.EvaluatedInclude))
+                .Select(x => new KeyValuePair<string[], string>(x.EvaluatedInclude.Split(Separator), x.EvaluatedInclude))
                 .GroupBy(x => x.Key.FirstOrDefault())
                 .Select(ToBundleDirectory)
                 .ToArray();
@@ -82,19 +118,28 @@ namespace Rcs
 
                 var items = directory.Select(x => new KeyValuePair<string[], string>(x.Key.Skip(1).ToArray(), x.Value)).ToArray();
 
-                var resources = items.Where(x => x.Key.Length == 1)
-                    .Select(x => new KeyValuePair<string, string>(Path.GetFileNameWithoutExtension(x.Key.First()), x.Value))
-                    .Select(x =>
-                    {
-                        var indexOfAt = x.Key.IndexOf("@", StringComparison.InvariantCulture);
-                        return indexOfAt > 0
-                            ? new KeyValuePair<string, string>(x.Key.Substring(0, indexOfAt), GetCorrectResourceBundleName(x.Value))
-                            : new KeyValuePair<string, string>(x.Key, GetCorrectResourceBundleName(x.Value));
-                    })
-                    .DistinctBy(x => x.Key)
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Key))
-                    .ToDictionary(x => GetCorrectConstName(x.Key), x => x.Value);
-                
+                IDictionary<string, string> resources;
+
+                try
+                {
+                    resources = items.Where(x => x.Key.Length == 1)
+                        .Select(x => new KeyValuePair<string, string>(Path.GetFileNameWithoutExtension(x.Key.First()), x.Value))
+                        .Select(x =>
+                        {
+                            var indexOfAt = x.Key.IndexOf("@", StringComparison.InvariantCulture);
+                            return indexOfAt > 0
+                                ? new KeyValuePair<string, string>(x.Key.Substring(0, indexOfAt), GetCorrectResourceBundleName(x.Value))
+                                : new KeyValuePair<string, string>(x.Key, GetCorrectResourceBundleName(x.Value));
+                        })
+                        .DistinctBy(x => x.Key)
+                        .Where(x => !string.IsNullOrWhiteSpace(x.Key))
+                        .ToDictionary(x => GetCorrectConstName(x.Key), x => x.Value);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error generating bundle resources", ex);
+                }
+
                 var subDirectories = items.Where(x => x.Key.Length > 1)
                     .GroupBy(x => x.Key.FirstOrDefault())
                     .Select(ToBundleDirectory)
@@ -123,6 +168,10 @@ namespace Rcs
             var fullRcsFilePath = Path.Combine(Directory.GetParent(path).ToString(), PathToRcs);
 
             File.WriteAllText(fullRcsFilePath, fileContent);
+
+            ProjectCollection.GlobalProjectCollection.UnloadProject(project);
+
+            return fileContent;
         }
 
         public string GetCorrectConstName(string original)
@@ -137,9 +186,9 @@ namespace Rcs
 
         public string GetCorrectResourceBundleName(string original)
         {
-            if (original.StartsWith("Resources\\"))
+            if (original.StartsWith($"Resources{Separator}"))
             {
-                original = original.Replace("Resources\\", "");
+                original = original.Replace($"Resources{Separator}", "");
             }
 
             original = new[] { "@1x", "@2x", "@3x" }.Aggregate(original, (current, s1) => current.Replace(s1, ""));
@@ -199,6 +248,11 @@ namespace Rcs
             }
 
             return stringBuilder.ToString();
+        }
+
+        public static bool IsRunningOnMono()
+        {
+            return Type.GetType("Mono.Runtime") != null;
         }
     }
 }
