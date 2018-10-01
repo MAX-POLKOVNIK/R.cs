@@ -5,11 +5,11 @@
   </PropertyGroup>
   
   <UsingTask
-    TaskName="Rcs.RcsBuildTask"
-    AssemblyFile="$(RcsDirectory)Rcs.dll" />
+    TaskName="R.cs.Core.BuildTask"
+    AssemblyFile="$(RcsDirectory)R.cs.Core.dll" />
   
   <Target AfterTargets="Build" Name="RcsBuildTask">
-    <RcsBuildTask
+    <R.cs.Core.BuildTask
       ProjectPath="$(MSBuildProjectFullPath)"
       RootNamespace="$(RootNamespace)"
     />

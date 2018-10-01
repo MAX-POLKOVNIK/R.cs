@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Rcs
+namespace R.cs.Core
 {
     public static class Extensions
     {

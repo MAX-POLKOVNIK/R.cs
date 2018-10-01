@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Build.Evaluation;
 
-namespace Rcs
+namespace R.cs.Core
 {
     public class Generator
     {

@@ -19,12 +19,12 @@
     <tags>R.cs resources</tags>
   </metadata>
   <files>
-	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.targets" target="build\netstandart2.0\Rcs.targets" />
-	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.dll" target="lib\Xamarin.iOS10\Rcs.dll" />		
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\R.cs.targets" target="build" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\R.cs.Core.dll" target="lib\Xamarin.iOS10\Rcs.dll" />		
 			
 		
-	<file src="..\..\Rcs\Rcs\bin\Release\*.dll" />
-	<file src="..\..\Rcs\Rcs\bin\Release\*.config" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\*.dll" />
+	<file src="..\..\R.cs\R.cs.Core\bin\Release\netstandard2.0\*.config" />
   
   </files>
 </package>

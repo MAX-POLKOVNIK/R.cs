@@ -1,6 +1,6 @@
-﻿using Rcs;
+﻿using R.cs.Core;
 
-namespace RcsLauncher
+namespace R.cs.Launcher
 {
     internal class Program
     {
