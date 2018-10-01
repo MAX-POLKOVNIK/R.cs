@@ -3,7 +3,6 @@
   <metadata minClientVersion="2.5">
     <id>R.cs</id>
     <version>0.1</version>
-    <title>R.cs</title>
     <authors>MAX-POLKOVNIK</authors>
 	<owners>MAX-POLKOVNIK</owners>
     <description>
@@ -11,10 +10,9 @@
     </description>
     <releaseNotes>
     </releaseNotes>
-    <projectUrl>https://github.com/MAX-POLKOVNIK</projectUrl>
-    <iconUrl>https://github.com/MAX-POLKOVNIK</iconUrl>
+    <projectUrl>https://github.com/MAX-POLKOVNIK/R.cs</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/MAX-POLKOVNIK</licenseUrl>
+    <licenseUrl>https://github.com/MAX-POLKOVNIK/R.cs/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright 2018</copyright>
     <tags>R.cs resources</tags>
   </metadata>
