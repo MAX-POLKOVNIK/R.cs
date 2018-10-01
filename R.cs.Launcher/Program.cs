@@ -1,9 +1,14 @@
-﻿using R.cs.Core;
+﻿using System;
+using R.cs.Core;
 
 namespace R.cs.Launcher
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args) => new Generator().Do(args[0], args[1]);
+        static void Main(string[] args)
+        {
+            Console.Write(new Generator().Do(args[0], args[1]));
+            Console.Read();
+        }
     }
 }

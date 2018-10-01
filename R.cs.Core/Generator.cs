@@ -10,7 +10,7 @@ namespace R.cs.Core
 {
     public class Generator
     {
-        private static readonly string GeneratedFileDescription = $@"// This file generated with {typeof(Generator).Assembly.FullName}";
+        private static readonly string GeneratedFileDescription = $@"// This file generated with R.cs v.{typeof(Generator).Assembly.GetName().Version}";
 
         private const string PathToRcs = @"Resources\R.cs";
 
@@ -25,9 +25,10 @@ namespace R.cs.Core
             public BundleDirectory[] BundleSubDirectories { get; set; }
         }
         
-        public void Do(string path, string rootNamespace)
+        public string Do(string path, string rootNamespace)
         {
-            var project = new Project(path);
+            var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
+                ?? new Project(path);
 
             var images = project.AllEvaluatedItems
                 .Where(x => x.ItemType == "ImageAsset")
@@ -123,6 +124,10 @@ namespace R.cs.Core
             var fullRcsFilePath = Path.Combine(Directory.GetParent(path).ToString(), PathToRcs);
 
             File.WriteAllText(fullRcsFilePath, fileContent);
+
+            ProjectCollection.GlobalProjectCollection.UnloadProject(project);
+
+            return fileContent;
         }
 
         public string GetCorrectConstName(string original)
