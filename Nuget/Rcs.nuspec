@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="2.5">
+    <id>R.cs</id>
+    <version>0.1</version>
+    <title>R.cs</title>
+    <authors>MAX-POLKOVNIK</authors>
+	<owners>MAX-POLKOVNIK</owners>
+    <description>
+      Simple R.cs file generator for Xamarin.iOS
+    </description>
+    <releaseNotes>
+    </releaseNotes>
+    <projectUrl>https://github.com/MAX-POLKOVNIK</projectUrl>
+    <iconUrl>https://github.com/MAX-POLKOVNIK</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/MAX-POLKOVNIK</licenseUrl>
+    <copyright>Copyright 2018</copyright>
+    <tags>R.cs resources</tags>
+  </metadata>
+  <files>
+	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.targets" target="build\netstandart2.0\Rcs.targets" />
+	<file src="..\..\Rcs\Rcs\bin\Release\Rcs.dll" target="lib\Xamarin.iOS10\Rcs.dll" />		
+			
+		
+	<file src="..\..\Rcs\Rcs\bin\Release\*.dll" />
+	<file src="..\..\Rcs\Rcs\bin\Release\*.config" />
+  
+  </files>
+</package>
