@@ -8,7 +8,7 @@
     TaskName="R.cs.Core.BuildTask"
     AssemblyFile="$(RcsDirectory)R.cs.Core.dll" />
   
-  <Target AfterTargets="Build" Name="RcsBuildTask">
+  <Target BeforeTargets="Build" Name="RcsBuildTask">
     <R.cs.Core.BuildTask
       ProjectPath="$(MSBuildProjectFullPath)"
       RootNamespace="$(RootNamespace)"

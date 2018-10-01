@@ -5,7 +5,7 @@ namespace R.cs.Core
 {
     public static class Extensions
     {
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+        internal static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer = null)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
