@@ -5,15 +5,11 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxTouchProject", "SandboxTouchProject\SandboxTouchProject.csproj", "{101E3060-8799-4119-8A7A-4F86A01C0C84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "R.cs.Core", "R.cs.Core\R.cs.Core.csproj", "{29B69C9B-1FEE-46BB-B200-6F8050DD2E21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.cs.Core", "R.cs.Core\R.cs.Core.csproj", "{29B69C9B-1FEE-46BB-B200-6F8050DD2E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.cs.Launcher", "R.cs.Launcher\R.cs.Launcher.csproj", "{640AFF28-9EBC-4D21-BE06-FFDDF14E1738}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R.cs.Tests", "R.cs.Tests\R.cs.Tests.csproj", "{D9BE3C57-DD23-4A71-A6E5-C4B31449B14F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{640AFF28-9EBC-4D21-BE06-FFDDF14E1738} = {640AFF28-9EBC-4D21-BE06-FFDDF14E1738}
-		{29B69C9B-1FEE-46BB-B200-6F8050DD2E21} = {29B69C9B-1FEE-46BB-B200-6F8050DD2E21}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

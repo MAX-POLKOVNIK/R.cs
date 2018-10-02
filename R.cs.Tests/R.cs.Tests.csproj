@@ -123,11 +123,14 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="R.cs.Test.targets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Resources\R.cs" />
+    <Compile Include="Resources/R.cs" />
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
@@ -148,7 +151,5 @@
     </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>"$(MSBuildThisFileDirectory)..\R.cs.Launcher\bin\$(Configuration)\R.cs.Launcher.exe" "$(MSBuildThisFileFullPath)" $(RootNamespace)</PreBuildEvent>
-  </PropertyGroup>
+  <Import Project="R.cs.Test.targets" />
 </Project>
