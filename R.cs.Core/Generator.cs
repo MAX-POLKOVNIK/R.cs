@@ -31,7 +31,7 @@ namespace R.cs.Core
         {
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
-
+            
             foreach (var projectEvaluatedItem in project.AllEvaluatedItems)
             {
                 foreach (var projectItemProcessor in _projectItemProcessors)
@@ -64,7 +64,7 @@ namespace R.cs.Core
 
             File.WriteAllText(fullRcsFilePath, fileContent);
 
-            ProjectCollection.GlobalProjectCollection.UnloadProject(project);
+            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
 
             return fileContent;
         }
