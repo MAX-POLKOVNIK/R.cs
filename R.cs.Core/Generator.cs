@@ -61,6 +61,7 @@ namespace R.cs.Core
 
             var fullRcsFilePath = Path.Combine(Directory.GetParent(path).ToString(), PathToRcs);
 
+            Directory.CreateDirectory(fullRcsFilePath);
             File.WriteAllText(fullRcsFilePath, fileContent);
 
             ProjectCollection.GlobalProjectCollection.UnloadProject(project);

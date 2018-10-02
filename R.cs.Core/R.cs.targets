@@ -2,11 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
 		<RcsDirectory Condition="$(RcsDirectory) == '' Or $(RcsDirectory) == '*Undefined*'">$(MSBuildThisFileDirectory)</RcsDirectory>
+        <RcsAssemblyLocation>$(RcsDirectory)R.cs.Core.dll</RcsAssemblyLocation>
+        <RcsAssemblyFile Condition="$(RcsDirectory) == '' Or $(RcsDirectory) == '*Undefined*' Or Exists($(RcsAssemblyLocation))">$(RcsDirectory)R.cs.Core.dll</RcsAssemblyFile>
+        <RcsAssemblyFile Condition="$(RcsDirectory) == '' Or $(RcsDirectory) == '*Undefined*'">$(RcsDirectory)\..\R.cs.Core.dll</RcsAssemblyFile>
   </PropertyGroup>
   
   <UsingTask
     TaskName="R.cs.Core.BuildTask"
-    AssemblyFile="$(RcsDirectory)\..\R.cs.Core.dll" />
+    AssemblyFile="$(RcsAssemblyFile)" />
   
   <Target BeforeTargets="CoreCompile" Name="RcsBuildTask">
     <R.cs.Core.BuildTask
