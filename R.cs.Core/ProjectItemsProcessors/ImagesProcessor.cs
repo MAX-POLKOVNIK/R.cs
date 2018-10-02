@@ -32,7 +32,7 @@ namespace R.cs.Core.ProjectItemsProcessors
             Name = ResourcesDirectoryName
         };
 
-        public bool Accept(ProjectItem projectItem)
+        public bool Process(ProjectItem projectItem)
         {
             switch (projectItem.ItemType)
             {

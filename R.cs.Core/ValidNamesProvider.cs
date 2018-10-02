@@ -6,7 +6,6 @@ namespace R.cs.Core
 {
     internal static class ValidNamesProvider
     {
-        private static readonly char Separator = Mono.IsMono() ? '/' : '\\';
         private static readonly char[] SymbolsToRemove = { '-', '.', '(', ')' };
 
         public static string GetCorrectConstName(string original)
@@ -21,9 +20,9 @@ namespace R.cs.Core
 
         public static string GetCorrectResourceBundleName(string original)
         {
-            if (original.StartsWith($"Resources{Separator}"))
+            if (original.StartsWith($"Resources{Path.DirectorySeparatorChar}"))
             {
-                original = original.Replace($"Resources{Separator}", "");
+                original = original.Replace($"Resources{Path.DirectorySeparatorChar}", "");
             }
 
             original = new[] { "@1x", "@2x", "@3x" }.Aggregate(original, (current, s1) => current.Replace(s1, ""));

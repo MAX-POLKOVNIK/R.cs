@@ -17,7 +17,7 @@ namespace R.cs.Core.ProjectItemsProcessors
             _consts = new Dictionary<string, string>();
         }
 
-        public bool Accept(ProjectItem projectItem)
+        public bool Process(ProjectItem projectItem)
         {
             if (projectItem.ItemType != SupportedProjectItemType)
                 return false;
