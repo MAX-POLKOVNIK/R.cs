@@ -112,12 +112,9 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Colors.xcassets\color_accent.colorset\" />
     <Folder Include="Colors.xcassets\color_primary.colorset\" />
     <Folder Include="Colors.xcassets\color_primary_dark.colorset\" />
-    <Folder Include="Colors.xcassets\color_accent.colorset\" />
-    <Folder Include="Resources\ResourcesSubDirectory\" />
-    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -151,5 +148,7 @@
     </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\R.cs.Core\bin\$(Configuration)\netstandard2.0\R.cs.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(MSBuildThisFileDirectory)..\R.cs.Launcher\bin\$(Configuration)\R.cs.Launcher.exe" "$(MSBuildThisFileFullPath)" $(RootNamespace)</PreBuildEvent>
+  </PropertyGroup>
 </Project>
