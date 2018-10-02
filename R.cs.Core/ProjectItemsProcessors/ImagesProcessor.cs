@@ -117,6 +117,8 @@ namespace R.cs.Core.ProjectItemsProcessors
         {
             var stringBuilder = new StringBuilder();
 
+            _rootBundleDirectory.Name = "Image";
+
             AddClassForBundleDirectory(_rootBundleDirectory);
 
             void AddClassForBundleDirectory(BundleDirectory bd)
