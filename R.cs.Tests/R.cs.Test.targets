@@ -6,7 +6,7 @@
   
   <UsingTask
     TaskName="R.cs.Core.BuildTask"
-    AssemblyFile="$(RcsDirectory)\..\R.cs.Core.dll" />
+    AssemblyFile="$(RcsDirectory)..\R.cs.Core\bin\$(Configuration)\netstandard2.0\R.cs.Core.dll" />
   
   <Target BeforeTargets="CoreCompile" Name="RcsBuildTask">
     <R.cs.Core.BuildTask
