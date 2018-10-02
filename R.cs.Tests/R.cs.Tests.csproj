@@ -98,10 +98,18 @@
     <ImageAsset Include="Assets.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Colors.xcassets\Contents.json" />
-    <ImageAsset Include="Colors.xcassets\color_primary.colorset\Contents.json" />
-    <ImageAsset Include="Colors.xcassets\color_primary_dark.colorset\Contents.json" />
-    <ImageAsset Include="Colors.xcassets\color_accent.colorset\Contents.json" />
+    <ImageAsset Include="Colors.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Colors.xcassets\color_primary.colorset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Colors.xcassets\color_primary_dark.colorset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Colors.xcassets\color_accent.colorset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
