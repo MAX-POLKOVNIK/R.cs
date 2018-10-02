@@ -31,7 +31,8 @@ namespace R.cs.Core
         private readonly IProjectItemProcessor[] _projectItemProcessors =
         {
             new StoryboardsProcessor(),
-            new XibsProcessor()
+            new XibsProcessor(),
+            new FontsProcessor()
         };
 
         public Generator()
