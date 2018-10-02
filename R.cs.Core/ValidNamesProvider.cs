@@ -20,9 +20,9 @@ namespace R.cs.Core
 
         public static string GetCorrectResourceBundleName(string original)
         {
-            if (original.StartsWith($"Resources{Path.DirectorySeparatorChar}"))
+            if (original.StartsWith($"Resources\\"))
             {
-                original = original.Replace($"Resources{Path.DirectorySeparatorChar}", "");
+                original = original.Replace($"Resources\\", "");
             }
 
             original = new[] { "@1x", "@2x", "@3x" }.Aggregate(original, (current, s1) => current.Replace(s1, ""));

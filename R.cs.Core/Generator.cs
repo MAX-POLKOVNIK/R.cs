@@ -16,7 +16,9 @@ namespace R.cs.Core
                                                                   "// =============================================================================================\n";
 
         private static readonly string PathToRcs = Path.Combine("Resources", "R.cs");
-        
+        private static readonly string PathToRcsInCsproj = "Resources\\R.cs";
+
+
         private readonly IProjectItemProcessor[] _projectItemProcessors =
         {
             new StoryboardsProcessor(),
@@ -51,11 +53,11 @@ namespace R.cs.Core
 
             var fileContent = GenerateRcsContent($"{rootNamespace}", classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
-            var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
+            var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcsInCsproj);
 
             if (resourceClassItem == null)
             {
-                project.AddItem("Compile", PathToRcs);
+                project.AddItem("Compile", PathToRcsInCsproj);
                 project.Save();
             }
 

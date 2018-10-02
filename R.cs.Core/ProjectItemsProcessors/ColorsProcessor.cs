@@ -23,12 +23,13 @@ namespace R.cs.Core.ProjectItemsProcessors
             if (projectItem.ItemType != SupportedProjectItemType)
                 return false;
 
-            var filename = Path.GetFileName(projectItem.EvaluatedInclude);
+            var filePath = projectItem.EvaluatedInclude.Replace('\\', Path.DirectorySeparatorChar);
+            var filename = Path.GetFileName(filePath);
 
             if (filename != ContentsFileName)
                 return false;
 
-            var parent = Directory.GetParent(projectItem.EvaluatedInclude).ToString();
+            var parent = Directory.GetParent(filePath).ToString();
 
             if (!parent.Contains(AssetSetExtension))
                 return false;
