@@ -8,10 +8,11 @@
     TaskName="R.cs.Core.BuildTask"
     AssemblyFile="$(RcsDirectory)\..\R.cs.Core.dll" />
   
-  <Target BeforeTargets="Build" Name="RcsBuildTask">
+  <Target BeforeTargets="CoreCompile" Name="RcsBuildTask">
     <R.cs.Core.BuildTask
       ProjectPath="$(MSBuildProjectFullPath)"
-      RootNamespace="$(RootNamespace)"
-    />
+      RootNamespace="$(RootNamespace)" />
+
+    <Message Text="Generated R.cs" />
   </Target>
 </Project>

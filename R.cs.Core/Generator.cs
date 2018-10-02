@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Build.Evaluation;
+using R.cs.Core.ProjectItemsProcessors;
 
 namespace R.cs.Core
 {
@@ -26,7 +27,18 @@ namespace R.cs.Core
             public IDictionary<string, string> BundleResources { get; set; }
             public BundleDirectory[] BundleSubDirectories { get; set; }
         }
-        
+
+        private readonly IProjectItemProcessor[] _projectItemProcessors =
+        {
+            new StoryboardsProcessor(),
+            new XibsProcessor()
+        };
+
+        public Generator()
+        {
+            
+        }
+
         public string Do(string path, string rootNamespace)
         {
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
@@ -67,6 +79,7 @@ namespace R.cs.Core
                 throw new Exception("Error generating colors", ex);
             }
 
+            /*
             try
             {
                 storyboards = project.AllEvaluatedItems
@@ -96,7 +109,7 @@ namespace R.cs.Core
             {
                 throw new Exception("Error generating xibs", ex);
             }
-
+            */
             var rootBundleDirectories = project.AllEvaluatedItems
                 .Where(x => x.ItemType == "BundleResource")
                 .Select(x => new KeyValuePair<string[], string>(x.EvaluatedInclude.Split(Separator), x.EvaluatedInclude))
@@ -155,7 +168,18 @@ namespace R.cs.Core
                 return bundleDirectory;
             }
 
-            var fileContent = GenerateRcsContent($"{rootNamespace}.Resources", images, colors, rootBundle, storyboards, xibs);
+            foreach (var projectAllEvaluatedItem in project.AllEvaluatedItems)
+            {
+                foreach (var projectItemProcessor in _projectItemProcessors)
+                {
+                    var accepted = projectItemProcessor.Accept(projectAllEvaluatedItem);
+
+                    if (accepted)
+                        break;
+                }
+            }
+
+            var fileContent = GenerateRcsContent($"{rootNamespace}.Resources", images, colors, rootBundle, classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
             var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
 
@@ -199,7 +223,7 @@ namespace R.cs.Core
         }
 
         public string GenerateRcsContent(string @namespace, IDictionary<string, string> images, IDictionary<string, string> colors,
-            BundleDirectory bundleDirectory, IDictionary<string, string> storyboards, IDictionary<string, string> xibs)
+            BundleDirectory bundleDirectory, string[] classes)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine(GeneratedFileDescription);
@@ -210,8 +234,12 @@ namespace R.cs.Core
             stringBuilder.AppendLine("    {");
             AddClass("Image", images);
             AddClass("Color", colors);
-            AddClass("Storyboard", storyboards);
-            AddClass("Xibs", xibs);
+
+            foreach (var @class in classes)
+            {
+                stringBuilder.Append(@class);
+            }
+
             AddClassForBundleDirectory(bundleDirectory, 8);
             stringBuilder.AppendLine("    }");
             stringBuilder.AppendLine("}");
