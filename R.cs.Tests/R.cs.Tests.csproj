@@ -98,9 +98,16 @@
     <ImageAsset Include="Assets.xcassets\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Colors.xcassets\Contents.json" />
+    <ImageAsset Include="Colors.xcassets\color_primary.colorset\Contents.json" />
+    <ImageAsset Include="Colors.xcassets\color_primary_dark.colorset\Contents.json" />
+    <ImageAsset Include="Colors.xcassets\color_accent.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Colors.xcassets\color_primary.colorset\" />
+    <Folder Include="Colors.xcassets\color_primary_dark.colorset\" />
+    <Folder Include="Colors.xcassets\color_accent.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

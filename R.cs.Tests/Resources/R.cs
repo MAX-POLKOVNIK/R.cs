@@ -22,8 +22,12 @@ public static class Font
 }
 public static class Color
 {
+public static UIKit.UIColor color_primary() => UIKit.UIColor.FromName("color_primary");
+public static UIKit.UIColor color_primary_dark() => UIKit.UIColor.FromName("color_primary_dark");
+public static UIKit.UIColor Color() => UIKit.UIColor.FromName("Color");
+public static UIKit.UIColor color_accent() => UIKit.UIColor.FromName("color_accent");
 }
-public static class Resources
+public static class Image
 {
 }
 }
