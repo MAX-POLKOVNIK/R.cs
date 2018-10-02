@@ -32,7 +32,8 @@ namespace R.cs.Core
         {
             new StoryboardsProcessor(),
             new XibsProcessor(),
-            new FontsProcessor()
+            new FontsProcessor(),
+            new ColorsProcessor()
         };
 
         public Generator()
@@ -64,7 +65,7 @@ namespace R.cs.Core
             {
                 throw new Exception("Error generating assets", ex);
             }
-
+            /*
             try
             {
                 colors = project.AllEvaluatedItems
@@ -79,7 +80,7 @@ namespace R.cs.Core
             {
                 throw new Exception("Error generating colors", ex);
             }
-
+            */
             /*
             try
             {
@@ -180,7 +181,7 @@ namespace R.cs.Core
                 }
             }
 
-            var fileContent = GenerateRcsContent($"{rootNamespace}.Resources", images, colors, rootBundle, classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
+            var fileContent = GenerateRcsContent($"{rootNamespace}.Resources", images, rootBundle, classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
             var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
 
@@ -223,7 +224,7 @@ namespace R.cs.Core
             return Path.ChangeExtension(original, null);
         }
 
-        public string GenerateRcsContent(string @namespace, IDictionary<string, string> images, IDictionary<string, string> colors,
+        public string GenerateRcsContent(string @namespace, IDictionary<string, string> images,
             BundleDirectory bundleDirectory, string[] classes)
         {
             var stringBuilder = new StringBuilder();
@@ -234,7 +235,6 @@ namespace R.cs.Core
             stringBuilder.AppendLine("    public static class R");
             stringBuilder.AppendLine("    {");
             AddClass("Image", images);
-            AddClass("Color", colors);
 
             foreach (var @class in classes)
             {
