@@ -19,6 +19,9 @@ public static class Xib
 }
 public static class Font
 {
+public static UIKit.UIFont Lato_Bold(System.nfloat size) => UIKit.UIFont.FromName("Lato-Bold", size);
+public static UIKit.UIFont Lato_Regular(System.nfloat size) => UIKit.UIFont.FromName("Lato-Regular", size);
+public static UIKit.UIFont SFUIDisplay_Regular(System.nfloat size) => UIKit.UIFont.FromName("SFUIDisplay-Regular", size);
 }
 public static class Color
 {
@@ -28,6 +31,10 @@ public static UIKit.UIColor color_accent() => UIKit.UIColor.FromName("color_acce
 }
 public static class Image
 {
+public static class ResourcesSubDirectory
+{
+public static UIKit.UIImage LeftArrow() => UIKit.UIImage.FromBundle(@"ResourcesSubDirectory/LeftArrow");
+}
 }
 }
 }

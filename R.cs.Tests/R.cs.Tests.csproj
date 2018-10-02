@@ -116,6 +116,8 @@
     <Folder Include="Colors.xcassets\color_primary.colorset\" />
     <Folder Include="Colors.xcassets\color_primary_dark.colorset\" />
     <Folder Include="Colors.xcassets\color_accent.colorset\" />
+    <Folder Include="Resources\ResourcesSubDirectory\" />
+    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -133,6 +135,20 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ResourcesSubDirectory\LeftArrow.png" />
+    <BundleResource Include="Resources\ResourcesSubDirectory\LeftArrow%402x.png" />
+    <BundleResource Include="Resources\ResourcesSubDirectory\LeftArrow%403x.png" />
+    <BundleResource Include="Resources\Fonts\Lato-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\Fonts\Lato-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\Fonts\SFUIDisplay-Regular.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\R.cs.Core\bin\$(Configuration)\netstandard2.0\R.cs.targets" />
