@@ -23,7 +23,7 @@ namespace R.cs.Core.ProjectItemsProcessors
             if (projectItem.ItemType != SupportedProjectItemType)
                 return false;
 
-            var filePath = projectItem.EvaluatedInclude.Replace('\\', Path.DirectorySeparatorChar);
+            var filePath = projectItem.EvaluatedInclude;
             var filename = Path.GetFileName(filePath);
 
             if (filename != ContentsFileName)

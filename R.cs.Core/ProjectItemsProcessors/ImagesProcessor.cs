@@ -52,7 +52,7 @@ namespace R.cs.Core.ProjectItemsProcessors
             if (SupportedImagesFormats.All(x => x != extension))
                 return false;
 
-            var splittedPath = projectItem.EvaluatedInclude.Split('\\');
+            var splittedPath = projectItem.EvaluatedInclude.Split(Path.DirectorySeparatorChar);
             var currentBundleDirectoryCollection = new List<BundleDirectory> {_rootBundleDirectory};
             var destinationDirectory = _rootBundleDirectory;
 
@@ -93,7 +93,7 @@ namespace R.cs.Core.ProjectItemsProcessors
 
         private bool AcceptAssetResourceProjectItem(ProjectItem projectItem)
         {
-            var filePath = projectItem.EvaluatedInclude.Replace('\\', Path.DirectorySeparatorChar);
+            var filePath = projectItem.EvaluatedInclude;
             var filename = Path.GetFileName(filePath);
 
             if (filename != ContentsFileName)

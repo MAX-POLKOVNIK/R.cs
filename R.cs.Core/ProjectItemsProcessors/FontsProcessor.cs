@@ -23,7 +23,7 @@ namespace R.cs.Core.ProjectItemsProcessors
             if (projectItem.ItemType != SupportedProjectItemType)
                 return false;
 
-            var filename = Path.GetFileName(projectItem.EvaluatedInclude.Replace('\\', Path.DirectorySeparatorChar));
+            var filename = Path.GetFileName(projectItem.EvaluatedInclude);
             var extension = Path.GetExtension(filename);
 
             if (FontFileExtensions.All(x => extension != x))
