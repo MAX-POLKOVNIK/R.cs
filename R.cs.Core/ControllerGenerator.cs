@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -11,6 +13,19 @@ namespace R.cs.Core
 {
     internal sealed class ControllerGenerator
     {
+        private static readonly string[] SupportedViewControllersTypes =
+        {
+            "viewController",
+            "tableViewController",
+            "glkViewController",
+            "avPlayerViewController",
+            "pageViewController",
+            "pageViewController",
+            "splitViewController",
+            "tabBarController",
+            "collectionViewController"
+        };
+
         private readonly string[] _storyboardsPaths;
         private readonly string _projectPath;
 
@@ -23,8 +38,49 @@ namespace R.cs.Core
         public async Task<string> Do()
         {
             var registeredTouchClasses = await GetRegisteredTouchClasses();
+            var mappedViewControllers = GetMappedViewControllers(registeredTouchClasses);
 
             return null;
+        }
+
+
+
+        private (string storyboardIdentifier, string viewControllerCsharpClass, string storyboard)[] GetMappedViewControllers(IDictionary<string, string> registeredTouchClasses)
+        {
+            var list = new List<(string viewControllerCsharpClass, string referencedIdentifier, string storyboard)>();
+
+            foreach (var storyboardsPath in _storyboardsPaths)
+            {
+                var xdoc = XDocument.Load(storyboardsPath);
+
+                var scenesElement = xdoc.Descendants()
+                    .First(x => x.Name == "document")
+                    .Descendants()
+                    .FirstOrDefault(x => x.Name == "scenes");
+
+                if (scenesElement == null)
+                    continue;
+
+                var l = scenesElement.Descendants()
+                    .Where(x => x.Name == "scene")
+                    .Descendants()
+                    .Where(x => x.Name == "objects")
+                    .Descendants()
+                    .ToArray();
+                    
+                var viewControllers = l.Where(x => SupportedViewControllersTypes.Any(y => y == x.Name.ToString()));
+
+                foreach (var viewController in viewControllers)
+                {
+                    var referencedIdentifier = viewController.Attributes().FirstOrDefault(x => x.Name == "storyboardIdentifier");
+                    if (referencedIdentifier == null)
+                        continue;
+
+                    list.Add((referencedIdentifier.Value, registeredTouchClasses[referencedIdentifier.Value], Path.GetFileNameWithoutExtension(storyboardsPath)));
+                }
+            }
+
+            return list.ToArray();
         }
 
         private async Task<IDictionary<string, string>> GetRegisteredTouchClasses()
@@ -54,7 +110,7 @@ namespace R.cs.Core
                     var namespaceName = ((NamespaceDeclarationSyntax)classDeclarationSyntax.Parent).Name;
                     var registeredName = GetRegisterAttributeValue(classDeclarationSyntax.AttributeLists);
 
-                    registeredTouchClasses.Add(registeredName, $"{namespaceName}.{className}");
+                    registeredTouchClasses.Add(registeredName.Trim('"'), $"{namespaceName}.{className}");
                 }
             }
 

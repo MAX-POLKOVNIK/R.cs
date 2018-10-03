@@ -29,11 +29,9 @@ namespace R.cs.Core
         
         public string Do(string path, string rootNamespace)
         {
-            new ControllerGenerator(path, new string[0]).Do().Wait();
-
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
-            
+
             foreach (var projectEvaluatedItem in project.AllEvaluatedItems)
             {
                 foreach (var projectItemProcessor in _projectItemProcessors)
@@ -51,6 +49,14 @@ namespace R.cs.Core
                     }
                 }
             }
+
+            var storyboardPaths = _projectItemProcessors.OfType<StoryboardsProcessor>()
+                .Single()
+                .StoryboardPaths
+                .Select(x => Path.Combine(Directory.GetParent(path).ToString(), x))
+                .ToArray();
+
+            new ControllerGenerator(path, storyboardPaths).Do().Wait();
 
             var fileContent = GenerateRcsContent($"{rootNamespace}", classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
