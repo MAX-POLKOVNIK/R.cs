@@ -29,6 +29,8 @@ namespace R.cs.Core
         
         public string Do(string path, string rootNamespace)
         {
+            new ControllerGenerator(path, new string[0]).Do().Wait();
+
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
             
