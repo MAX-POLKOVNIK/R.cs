@@ -47,7 +47,7 @@ namespace R.cs.Core
 
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("public static class ViewControllers");
+            stringBuilder.AppendLine("public static class ViewController");
             stringBuilder.AppendLine("{");
 
             foreach (var (storyboardIdentifier, viewControllerCsharpClass, storyboard) in mappedViewControllers)
@@ -63,7 +63,7 @@ namespace R.cs.Core
 
         private (string storyboardIdentifier, string viewControllerCsharpClass, string storyboard)[] GetMappedViewControllers(IDictionary<string, string> registeredTouchClasses)
         {
-            var list = new List<(string viewControllerCsharpClass, string referencedIdentifier, string storyboard)>();
+            var list = new List<(string referencedIdentifier, string viewControllerCsharpClass, string storyboard)>();
 
             foreach (var storyboardsPath in _storyboardsPaths)
             {
@@ -92,7 +92,11 @@ namespace R.cs.Core
                     if (referencedIdentifier == null)
                         continue;
 
-                    list.Add((referencedIdentifier.Value, registeredTouchClasses[referencedIdentifier.Value], Path.GetFileNameWithoutExtension(storyboardsPath)));
+                    var customClass = viewController.Attributes().FirstOrDefault(x => x.Name == "customClass");
+                    if (customClass == null)
+                        continue;
+
+                    list.Add((referencedIdentifier.Value, registeredTouchClasses[customClass.Value], Path.GetFileNameWithoutExtension(storyboardsPath)));
                 }
             }
 
