@@ -2,8 +2,10 @@
 
 namespace R.cs.Core.ProjectItemsProcessors
 {
-    internal interface IProjectItemProcessor : ISourceCodeGenerator
+    internal interface IProjectItemProcessor
     {
         bool Process(ProjectItem projectItem);
+
+        string GenerateSourceCode();
     }
 }

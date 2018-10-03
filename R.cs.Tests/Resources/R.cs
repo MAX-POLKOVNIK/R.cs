@@ -36,7 +36,7 @@ public static class ResourcesSubDirectory
 public static UIKit.UIImage LeftArrow() => UIKit.UIImage.FromBundle(@"ResourcesSubDirectory/LeftArrow");
 }
 }
-public static class ViewControllers
+public static class ViewController
 {
 }
 }

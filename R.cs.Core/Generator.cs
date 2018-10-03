@@ -16,20 +16,24 @@ namespace R.cs.Core
                                                                   "// =============================================================================================\n";
 
         private static readonly string PathToRcs = Path.Combine("Resources", "R.cs");
+
+        private IProjectItemProcessor[] _projectItemProcessors;
         
-        private readonly IProjectItemProcessor[] _projectItemProcessors =
-        {
-            new StoryboardsProcessor(),
-            new XibsProcessor(),
-            new FontsProcessor(),
-            new ColorsProcessor(),
-            new ImagesProcessor()
-        };
         
         public string Do(string path, string rootNamespace)
         {
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
+            
+            _projectItemProcessors = new IProjectItemProcessor[]
+            {
+                new StoryboardsProcessor(),
+                new XibsProcessor(),
+                new FontsProcessor(),
+                new ColorsProcessor(),
+                new ImagesProcessor(),
+                new ControllersProcessor(path)
+            };
 
             foreach (var projectEvaluatedItem in project.AllEvaluatedItems)
             {
@@ -37,10 +41,7 @@ namespace R.cs.Core
                 {
                     try
                     {
-                        var processed = projectItemProcessor.Process(projectEvaluatedItem);
-
-                        if (processed)
-                            break;
+                        projectItemProcessor.Process(projectEvaluatedItem);
                     }
                     catch (Exception ex)
                     {
@@ -48,11 +49,8 @@ namespace R.cs.Core
                     }
                 }
             }
-
-            var controllerGenerator = new ControllerGenerator(path, _projectItemProcessors.OfType<StoryboardsProcessor>().Single());
-            var sourceCodeGenerators = _projectItemProcessors.Cast<ISourceCodeGenerator>().Concat(new[] {controllerGenerator}).ToArray();
             
-            var fileContent = GenerateRcsContent($"{rootNamespace}", classes: sourceCodeGenerators.Select(x => x.GenerateSourceCode()).ToArray());
+            var fileContent = GenerateRcsContent($"{rootNamespace}", classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
             var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
 
