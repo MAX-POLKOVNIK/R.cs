@@ -43,7 +43,7 @@ namespace R.cs.Core.ProjectItemsProcessors
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("public static class Font");
+            stringBuilder.AppendLine("static class Font");
             stringBuilder.AppendLine("{");
 
             foreach (var @const in _consts)

@@ -11,10 +11,12 @@ namespace R.cs.Core.ProjectItemsProcessors
         private const string StoryboardFileExtension = ".storyboard";
 
         private readonly IDictionary<string, string> _consts;
+        private readonly List<string> _storyboardPaths;
 
         public StoryboardsProcessor()
         {
             _consts = new Dictionary<string, string>();
+            _storyboardPaths = new List<string>();
         }
 
         public bool Process(ProjectItem projectItem)
@@ -28,6 +30,8 @@ namespace R.cs.Core.ProjectItemsProcessors
             if (extension != StoryboardFileExtension)
                 return false;
 
+            _storyboardPaths.Add(projectItem.EvaluatedInclude);
+
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filename);
 
             var constName = ValidNamesProvider.GetCorrectConstName(fileNameWithoutExtension);
@@ -38,11 +42,13 @@ namespace R.cs.Core.ProjectItemsProcessors
             return true;
         }
 
+        public string[] StoryboardPaths => _storyboardPaths.ToArray();
+
         public string GenerateSourceCode()
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("public static class Storyboard");
+            stringBuilder.AppendLine("static class Storyboard");
             stringBuilder.AppendLine("{");
 
             foreach (var @const in _consts)

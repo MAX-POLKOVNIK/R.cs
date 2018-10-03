@@ -16,8 +16,7 @@ namespace R.cs.Core
                                                                   "// =============================================================================================\n";
 
         private static readonly string PathToRcs = Path.Combine("Resources", "R.cs");
-
-
+        
         private readonly IProjectItemProcessor[] _projectItemProcessors =
         {
             new StoryboardsProcessor(),
@@ -31,7 +30,7 @@ namespace R.cs.Core
         {
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
-            
+
             foreach (var projectEvaluatedItem in project.AllEvaluatedItems)
             {
                 foreach (var projectItemProcessor in _projectItemProcessors)
@@ -50,7 +49,10 @@ namespace R.cs.Core
                 }
             }
 
-            var fileContent = GenerateRcsContent($"{rootNamespace}", classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
+            var controllerGenerator = new ControllerGenerator(path, _projectItemProcessors.OfType<StoryboardsProcessor>().Single());
+            var sourceCodeGenerators = _projectItemProcessors.Cast<ISourceCodeGenerator>().Concat(new[] {controllerGenerator}).ToArray();
+            
+            var fileContent = GenerateRcsContent($"{rootNamespace}", classes: sourceCodeGenerators.Select(x => x.GenerateSourceCode()).ToArray());
 
             var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
 
@@ -76,7 +78,7 @@ namespace R.cs.Core
             stringBuilder.AppendLine("");
             stringBuilder.AppendLine($"namespace {@namespace}");
             stringBuilder.AppendLine("{");
-            stringBuilder.AppendLine("public static class R");
+            stringBuilder.AppendLine("static class R");
             stringBuilder.AppendLine("{");
 
             foreach (var @class in classes)
