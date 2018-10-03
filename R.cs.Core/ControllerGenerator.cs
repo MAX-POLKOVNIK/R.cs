@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
+using R.cs.Core.ProjectItemsProcessors;
 
 namespace R.cs.Core
 {
-    internal sealed class ControllerGenerator
+    internal sealed class ControllerGenerator : ISourceCodeGenerator
     {
         private static readonly string[] SupportedViewControllersTypes =
         {
@@ -29,21 +31,35 @@ namespace R.cs.Core
         private readonly string[] _storyboardsPaths;
         private readonly string _projectPath;
 
-        public ControllerGenerator(string projectPath, string[] storyboardsPaths)
+        public ControllerGenerator(string projectPath, StoryboardsProcessor storyboardsProcessor)
         {
-            _storyboardsPaths = storyboardsPaths ?? throw new ArgumentNullException(nameof(storyboardsPaths));
             _projectPath = projectPath ?? throw new ArgumentNullException(nameof(projectPath));
+
+            _storyboardsPaths = storyboardsProcessor.StoryboardPaths
+                .Select(x => Path.Combine(Directory.GetParent(projectPath).ToString(), x))
+                .ToArray();
         }
 
-        public async Task<string> Do()
+        public string GenerateSourceCode()
         {
-            var registeredTouchClasses = await GetRegisteredTouchClasses();
+            var registeredTouchClasses = GetRegisteredTouchClasses().Result;
             var mappedViewControllers = GetMappedViewControllers(registeredTouchClasses);
 
-            return null;
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("public static class ViewControllers");
+            stringBuilder.AppendLine("{");
+
+            foreach (var (storyboardIdentifier, viewControllerCsharpClass, storyboard) in mappedViewControllers)
+            {
+                stringBuilder.AppendLine($"public static {viewControllerCsharpClass} {storyboardIdentifier}(Foundation.NSBundle bundle = null) " +
+                                         $"=> ({viewControllerCsharpClass}) UIKit.UIStoryboard.FromName(\"{storyboard}\", bundle).InstantiateViewController(\"{storyboardIdentifier}\");");
+            }
+
+            stringBuilder.AppendLine("}");
+
+            return stringBuilder.ToString();
         }
-
-
 
         private (string storyboardIdentifier, string viewControllerCsharpClass, string storyboard)[] GetMappedViewControllers(IDictionary<string, string> registeredTouchClasses)
         {
