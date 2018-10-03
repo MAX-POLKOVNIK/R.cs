@@ -9,7 +9,7 @@ This tool generates R.cs file to provide resources.
 * `R.Font` - Fonts in bundle;
 * `R.Storyboard` - storyboards in bundle;
 * `R.Xib` - xibs in bundle;
-* `R.Controller` - controllers defined in storyboards.
+* `R.ViewController` - controllers defined in storyboards.
 
 ### Sample R.cs:
 ```
