@@ -27,7 +27,7 @@ namespace R.cs.Core.ProjectItemsProcessors
 
             if (extension != StoryboardFileExtension)
                 return false;
-
+            
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filename);
 
             var constName = ValidNamesProvider.GetCorrectConstName(fileNameWithoutExtension);
@@ -37,7 +37,7 @@ namespace R.cs.Core.ProjectItemsProcessors
 
             return true;
         }
-
+        
         public string GenerateSourceCode()
         {
             var stringBuilder = new StringBuilder();

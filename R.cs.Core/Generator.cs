@@ -17,31 +17,31 @@ namespace R.cs.Core
 
         private static readonly string PathToRcs = Path.Combine("Resources", "R.cs");
 
-
-        private readonly IProjectItemProcessor[] _projectItemProcessors =
-        {
-            new StoryboardsProcessor(),
-            new XibsProcessor(),
-            new FontsProcessor(),
-            new ColorsProcessor(),
-            new ImagesProcessor()
-        };
+        private IProjectItemProcessor[] _projectItemProcessors;
+        
         
         public string Do(string path, string rootNamespace)
         {
             var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
                 ?? new Project(path);
             
+            _projectItemProcessors = new IProjectItemProcessor[]
+            {
+                new StoryboardsProcessor(),
+                new XibsProcessor(),
+                new FontsProcessor(),
+                new ColorsProcessor(),
+                new ImagesProcessor(),
+                new ControllersProcessor(path)
+            };
+
             foreach (var projectEvaluatedItem in project.AllEvaluatedItems)
             {
                 foreach (var projectItemProcessor in _projectItemProcessors)
                 {
                     try
                     {
-                        var processed = projectItemProcessor.Process(projectEvaluatedItem);
-
-                        if (processed)
-                            break;
+                        projectItemProcessor.Process(projectEvaluatedItem);
                     }
                     catch (Exception ex)
                     {
@@ -49,7 +49,7 @@ namespace R.cs.Core
                     }
                 }
             }
-
+            
             var fileContent = GenerateRcsContent($"{rootNamespace}", classes: _projectItemProcessors.Select(x => x.GenerateSourceCode()).ToArray());
 
             var resourceClassItem = project.AllEvaluatedItems.FirstOrDefault(x => x.ItemType == "Compile" && x.EvaluatedInclude == PathToRcs);
@@ -76,7 +76,7 @@ namespace R.cs.Core
             stringBuilder.AppendLine("");
             stringBuilder.AppendLine($"namespace {@namespace}");
             stringBuilder.AppendLine("{");
-            stringBuilder.AppendLine("public static class R");
+            stringBuilder.AppendLine("static class R");
             stringBuilder.AppendLine("{");
 
             foreach (var @class in classes)
