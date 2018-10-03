@@ -124,7 +124,7 @@ namespace R.cs.Core.ProjectItemsProcessors
 
             void AddClassForBundleDirectory(BundleDirectory bd)
             {
-                stringBuilder.AppendLine($"static class {bd.Name}");
+                stringBuilder.AppendLine($"public static class {bd.Name}");
                 stringBuilder.AppendLine("{");
 
                 foreach (var resource in bd.BundleResources)

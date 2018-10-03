@@ -48,7 +48,7 @@ namespace R.cs.Core.ProjectItemsProcessors
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("static class Color");
+            stringBuilder.AppendLine("public static class Color");
             stringBuilder.AppendLine("{");
 
             foreach (var @const in _consts)

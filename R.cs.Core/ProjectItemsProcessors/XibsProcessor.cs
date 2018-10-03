@@ -42,7 +42,7 @@ namespace R.cs.Core.ProjectItemsProcessors
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("static class Xib");
+            stringBuilder.AppendLine("public static class Xib");
             stringBuilder.AppendLine("{");
 
             foreach (var @const in _consts)

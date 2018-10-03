@@ -48,7 +48,7 @@ namespace R.cs.Core.ProjectItemsProcessors
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("static class Storyboard");
+            stringBuilder.AppendLine("public static class Storyboard");
             stringBuilder.AppendLine("{");
 
             foreach (var @const in _consts)
