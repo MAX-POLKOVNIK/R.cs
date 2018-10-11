@@ -22,9 +22,8 @@ namespace R.cs.Core
         
         public string Do(string path, string rootNamespace)
         {
-            var project = ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).FirstOrDefault() 
-                ?? new Project(path);
-            
+            var project = new Project(path, null, null, new ProjectCollection());
+
             _projectItemProcessors = new IProjectItemProcessor[]
             {
                 new StoryboardsProcessor(),
