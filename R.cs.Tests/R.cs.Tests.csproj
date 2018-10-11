@@ -121,6 +121,7 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <InterfaceDefinition Include="EmptyStoryboard1.storyboard" />
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="R.cs.Test.targets">

@@ -2,7 +2,7 @@
 <package >
   <metadata minClientVersion="2.5">
     <id>R.cs</id>
-    <version>0.3</version>
+    <version>0.3.1</version>
     <authors>MAX-POLKOVNIK</authors>
 	<owners>MAX-POLKOVNIK</owners>
     <description>
@@ -11,6 +11,7 @@
     <releaseNotes>
     </releaseNotes>
     <projectUrl>https://github.com/MAX-POLKOVNIK/R.cs</projectUrl>
+	<iconUrl>https://github.com/MAX-POLKOVNIK/R.cs/raw/develop/Icons/64.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <licenseUrl>https://github.com/MAX-POLKOVNIK/R.cs/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright 2018</copyright>
