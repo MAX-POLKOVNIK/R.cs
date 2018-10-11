@@ -1,7 +1,5 @@
 # R.cs
 
-*Currently in development*
-
 This tool generates R.cs file to provide resources.
 
 ### Structure of R.cs:
@@ -9,8 +7,9 @@ This tool generates R.cs file to provide resources.
 * `R.Image` - Images in bundle and assets;
 * `R.Color` - Colors in assets;
 * `R.Font` - Fonts in bundle;
-* `R.Storyboards` - storyboard in bundle;
-* `R.Xib` - xibs in bundle.
+* `R.Storyboard` - storyboards in bundle;
+* `R.Xib` - xibs in bundle;
+* `R.ViewController` - controllers defined in storyboards.
 
 ### Sample R.cs:
 ```
@@ -51,6 +50,11 @@ namespace R.cs.Tests
             {
                 public static UIKit.UIImage LeftArrow() => UIKit.UIImage.FromBundle(@"ResourcesSubDirectory/LeftArrow");
             }
+        }
+        
+        public static class ViewController
+        {
+            public static R.cs.Tests.MapViewController MapViewController(Foundation.NSBundle bundle = null) => (R.cs.Tests.MapViewController) UIKit.UIStoryboard.FromName("Main", bundle).InstantiateViewController("MapViewController");
         }
     }
 }
