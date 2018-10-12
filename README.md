@@ -2,6 +2,42 @@
 
 This tool generates R.cs file to provide resources.
 
+## Examples:
+
+#### Images:
+R.cs will find all images in `Resource` directory, subdirectories, and Assets files.  
+Note: group assets currently not supported.
+
+By default: 
+```
+var image = UIImage.FromBundle("my-awesome-image")
+```
+With R.cs:
+```
+var image = R.Image.my_awesome_image()
+```
+
+#### Fonts:
+By default:
+```
+var font = UIFont.FromName("Lato-Bold", 15);
+```
+With R.cs:
+```
+var font = R.Font.Lato_Bold(15);
+```
+
+#### ViewControllers:
+By default:
+```
+var controller = (MapViewController)UIKit.UIStoryboard.FromName("Main", bundle).InstantiateViewController("MapViewController");
+```
+With R.cs:
+```
+var controller = R.ViewController.MapViewController();
+```
+Note: R.cs generates ViewController name using identifier, not a class name.
+
 ### Structure of R.cs:
 
 * `R.Image` - Images in bundle and assets;
