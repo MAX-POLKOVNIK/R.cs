@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using System;
+using Microsoft.Build.Framework;
 using Task = Microsoft.Build.Utilities.Task;
 
 namespace R.cs.Core
@@ -13,8 +14,16 @@ namespace R.cs.Core
 
         public override bool Execute()
         {
-            new Generator().Do(ProjectPath, RootNamespace);
-            return true;
+            try
+            {
+                new Generator().Do(ProjectPath, RootNamespace);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Log.LogErrorFromException(e);
+                return false;
+            }
         }
     }
 }
